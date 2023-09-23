@@ -1,64 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML to Text Content Converter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-        }
-        textarea {
-            width: 100%;
-            height: 150px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        #output {
-            width: 100%;
-            height: 150px;
-        }
-    </style>
 </head>
 <body>
     <h1>HTML to Text Content Converter</h1>
-    <textarea id="htmlInput" placeholder="Enter HTML content here"></textarea>
-    <button id="convertButton">Convert</button>
-    <textarea id="output" readonly placeholder="Text content will appear here"></textarea>
-    <button id="copyButton">Copy to Clipboard</button>
+    <label for="htmlInput">Enter HTML Content:</label>
+    <textarea id="htmlInput" rows="5" cols="50"></textarea>
+    <br>
+    <button onclick="convertToText()">Convert</button>
+    <br>
+    <label for="textContent">Text Content:</label>
+    <textarea id="textContent" rows="5" cols="50" readonly></textarea>
+    <br>
+    <button onclick="copyToClipboard()">Copy to Clipboard</button>
 
     <script>
-        const htmlInput = document.getElementById('htmlInput');
-        const convertButton = document.getElementById('convertButton');
-        const output = document.getElementById('output');
-        const copyButton = document.getElementById('copyButton');
+        function convertToText() {
+            const htmlInput = document.getElementById("htmlInput").value;
+            const textContent = htmlInput.replace(/ {2,}/g, ' ').replace(/<\/?[^>]+(>|$)/g, "");
+            document.getElementById("textContent").value = textContent;
+        }
 
-        convertButton.addEventListener('click', () => {
-            const htmlContent = htmlInput.value;
-            const textContent = convertHTMLToText(htmlContent);
-            output.value = textContent;
-        });
-
-        copyButton.addEventListener('click', () => {
-            output.select();
-            document.execCommand('copy');
-            alert('Text content copied to clipboard');
-        });
-
-        function convertHTMLToText(html) {
-            const temp = document.createElement('div');
-            temp.innerHTML = html;
-            return temp.textContent || temp.innerText || '';
+        function copyToClipboard() {
+            const textContent = document.getElementById("textContent").value;
+            const textArea = document.createElement("textarea");
+            textArea.value = textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            alert("Text content copied to clipboard.");
         }
     </script>
 </body>
