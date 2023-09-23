@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML to Text Content Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        #output {
+            width: 100%;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML to Text Content Converter</h1>
+    <textarea id="htmlInput" placeholder="Enter HTML content here"></textarea>
+    <button id="convertButton">Convert</button>
+    <textarea id="output" readonly placeholder="Text content will appear here"></textarea>
+    <button id="copyButton">Copy to Clipboard</button>
+
+    <script>
+        const htmlInput = document.getElementById('htmlInput');
+        const convertButton = document.getElementById('convertButton');
+        const output = document.getElementById('output');
+        const copyButton = document.getElementById('copyButton');
+
+        convertButton.addEventListener('click', () => {
+            const htmlContent = htmlInput.value;
+            const textContent = convertHTMLToText(htmlContent);
+            output.value = textContent;
+        });
+
+        copyButton.addEventListener('click', () => {
+            output.select();
+            document.execCommand('copy');
+            alert('Text content copied to clipboard');
+        });
+
+        function convertHTMLToText(html) {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            return temp.textContent || temp.innerText || '';
+        }
+    </script>
+</body>
+</html>
